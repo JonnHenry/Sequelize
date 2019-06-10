@@ -1,0 +1,30 @@
+{
+  "name": "sequelizeassociations",
+  "version": "1.0.0",
+  "description": "Aprender a usar sequelize con asociaciones",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonnHenry/SequelizeAssociations.git"
+  },
+  "author": "Jonnathan Campoberde",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonnHenry/SequelizeAssociations/issues"
+  },
+  "homepage": "https://github.com/JonnHenry/SequelizeAssociations#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.8.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
