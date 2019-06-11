@@ -1,11 +1,15 @@
 var express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
-const models = require('./db/index').models;
-const conexionBD = require('./db/index').connectDB;
+const conexionBD = require('./db').connectDB;
+const conexion = require('./db').conexionDB
+
+conexionBD();
+
+
+const models = require('./db').models;
 const Productos = models.Productos;
 const Equipos = models.Equipos;
-conexionBD();
 
 var app = express();
 app.use(bodyParser.urlencoded({
@@ -17,16 +21,23 @@ var port = 3000;
 
 
 app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
-    Productos.findOrCreate({
+  /*conexion.query('Select * from Productos').spread(function(results, metadata) {
+    // Results will be an empty array and metadata will contain the number of affected rows.
+    console.log('Los resultados son: '+ results);
+    console.log('Los metadatas son: '+metadata)
+    
+  })
+  res.send('OK')*/
+  Productos.findOrCreate({
       where: {
-        Id: req.body.id,
+        id: req.body.id,
       },
       defaults: {
-        Nombre: req.body.nombre,
-        Descripcion: req.body.descripcion,
-        PrecioUnitario: req.body.precioUnitario,
-        Stock : req.body.stock,
-        Activo: req.body.activo
+        nombre: req.body.nombre,
+        descripcion: req.body.descripcion,
+        precioUnitario: req.body.precioUnitario,
+        stock : req.body.stock,
+        activo: req.body.activo
       }
     }).spread((result, created) => { // Si este fue encontrado retorna un booleano con verdadero si el objeto fue creado
       if (created) {
@@ -41,6 +52,7 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
         })
       }
     }).catch(err => {
+      console.log(err)
       res.json({
         message: 'Error, vuelva a intentarlo.',
         inserted: false
@@ -49,7 +61,15 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
   });
 
   app.get('/producto/all', (req, res) => { // Para poder obtener todos los inventarios y el numero de inventarios
-    Productos.findAndCountAll()
+    conexion.query("Select * from productos", { raw: true }).spread(function(results, metadata) {
+      // Results will be an empty array and metadata will contain the number of affected rows.
+      results.forEach(element => {
+        console.log(JSON.stringify(element))
+      });
+    })
+    res.send('OK')
+    
+    /*Productos.findAndCountAll()
       .then(result => {
         res.json({
           'length': result.count,
@@ -63,18 +83,18 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
           'error': true,
           'data': []
         });
-      })
+      })*/
   });
 
   app.post('/equipo/nuevo', (req, res) => { // Para poder crear un producto
     Equipos.findOrCreate({
       where: {
-        IdProducto: req.body.idProducto,
+        idProducto: req.body.idProducto,
       },
       defaults: {
-        Marca: req.body.marca,
-        Observacion: req.body.observacion,
-        Estado: req.body.estado
+        marca: req.body.marca,
+        observacion: req.body.observacion,
+        estado: req.body.estado
       }
     }).spread((result, created) => { // Si este fue encontrado retorna un booleano con verdadero si el objeto fue creado
       if (created) {
@@ -89,6 +109,7 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
         })
       }
     }).catch(err => {
+      console.log(err)
       res.json({
         message: 'Error 500 Internal Server Error, vuelva a intentarlo.',
         inserted: false
@@ -98,13 +119,15 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
   
   
   app.get('/equipo/all', (req, res) => { // Para poder obtener todos los inventarios y el numero de inventarios
-    Equipos.findAll({
-        include: [
-            {
-                model: Productos
-            }
-        ]
+    conexion.query("Select * from productos", { raw: true }).spread(function(results, metadata) {
+      // Results will be an empty array and metadata will contain the number of affected rows.
+      results.forEach(element => {
+        console.log(JSON.stringify(element))
+      });
     })
+    res.send('OK')
+   
+    /* Equipos.findAll()
       .then(result => {
         res.json({
           'data': result,
@@ -116,7 +139,7 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
           'error': true,
           'data': []
         });
-      })
+      })*/
   });
 
 

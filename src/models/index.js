@@ -5,9 +5,9 @@ module.exports = function (sequelize){
 	//const Instrumentos = require('./Instrumentos')(sequelize);
     //const Insumos = require('./Insumos')(sequelize);
     //Un Equipo,insumo o instrumento pertenece a una Inventario ya sea de control o entrega
-    Equipos.hasMany(Productos);
-    Productos.belongsTo(Equipos, {foreignKey: 'Id', targetKey: 'IdProducto'});
-
+    //Equipos.hasOne(Productos);
+    //Productos.hasMany(Equipos);
+    
 	return {
         Productos: Productos,
 		Equipos: Equipos//,

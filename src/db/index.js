@@ -2,16 +2,13 @@ const Sequelize = require('sequelize');
 
 const conexionDB = new Sequelize('pruebas', 'admin', '123456789', {
     host: 'localhost',
-    dialect: 'postgres',
-    dialectOptions: {
-        encrypt: true
-    }
+    dialect: 'postgres'
 });
 
 var models = require('../models')(conexionDB)
 
 const connectDB = ()=>{
-    conexionDB.sync().then(() => {
+    conexionDB.sync({force: true}).then(() => {
         console.log('Tablas Creadas exitosamente!')
     },
     (err) => 
@@ -24,5 +21,6 @@ const connectDB = ()=>{
 
 module.exports.models = models;
 module.exports.connectDB=connectDB;
+module.exports.conexionDB=conexionDB;
 
 
