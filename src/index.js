@@ -116,6 +116,9 @@ app.get('/equipo/all', (req, res) => { // Para poder obtener todos los inventari
 });
 
 
+
+
+
 app.get("/", (req, res) => {
   res.send("<h1>Servidor funcionando correctamente</h1>");
 })
