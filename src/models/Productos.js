@@ -36,9 +36,20 @@ module.exports = function(sequelize){
             type:  DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true 
-        }
+        },
+        created_at: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+            allowNull: false
+          },
+          updated_at: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+            allowNull: false
+          }
+
     },{
-        timestamps: true
+        timestamps: false
     });
     return Productos;
 }

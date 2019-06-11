@@ -35,7 +35,7 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
       defaults: {
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
-        precioUnitario: req.body.precioUnitario,
+        precio_unitario: req.body.precioUnitario,
         stock : req.body.stock,
         activo: req.body.activo
       }
@@ -87,9 +87,10 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
   });
 
   app.post('/equipo/nuevo', (req, res) => { // Para poder crear un producto
+    console.log(req.body)
     Equipos.findOrCreate({
       where: {
-        idProducto: req.body.idProducto,
+        id_producto: req.body.idProducto,
       },
       defaults: {
         marca: req.body.marca,
@@ -119,15 +120,20 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
   
   
   app.get('/equipo/all', (req, res) => { // Para poder obtener todos los inventarios y el numero de inventarios
-    conexion.query("Select * from productos", { raw: true }).spread(function(results, metadata) {
+    var data=[];
+    conexion.query("SELECT id, nombre, descripcion, precio_unitario, stock, activo, createdAt, updatedAt, marca, observacion, estado  FROM equipos JOIN productos ON productos.id = equipos.id_producto;", { raw: true }).spread(function(results, metadata) {
       // Results will be an empty array and metadata will contain the number of affected rows.
       results.forEach(element => {
-        console.log(JSON.stringify(element))
+        data.push(JSON.stringify(element))
       });
+      res.json(data);
     })
-    res.send('OK')
-   
-    /* Equipos.findAll()
+    /*Equipos.findAll({
+      include: [{
+        model: 'productos',
+        attributes: ['marca'] // nothing in attributes here in order to not import columns from products
+        }]
+    })
       .then(result => {
         res.json({
           'data': result,
@@ -135,6 +141,7 @@ app.post('/producto/nuevo', (req, res) => { // Para poder crear un producto
         })
       })
       .catch((err) => {
+        console.log(err)
         res.json({
           'error': true,
           'data': []
