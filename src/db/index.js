@@ -7,12 +7,13 @@ const conexionDB = new Sequelize('UCuencaDental', 'admin', '123456789', {
 
 var models = require('../models')(conexionDB)
 
-const connectDB = ()=>{
-    conexionDB.sync({force: true}).then(() => {
-        console.log('Tablas Creadas exitosamente!')
-    },
-    (err) => 
-        {
+const connectDB = () => {
+    conexionDB.sync({
+        force: true
+    }).then(() => {
+            console.log('Base de datos conectada exitosamente!')
+        },
+        (err) => {
             console.log(err)
             console.log("Error connecting DB, retrying...")
             setTimeout(connectDB, 5000);
@@ -20,7 +21,5 @@ const connectDB = ()=>{
 }
 
 module.exports.models = models;
-module.exports.connectDB=connectDB;
-module.exports.conexionDB=conexionDB;
-
-
+module.exports.connectDB = connectDB;
+module.exports.conexionDB = conexionDB;

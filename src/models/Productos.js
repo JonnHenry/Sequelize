@@ -1,27 +1,26 @@
 const DataTypes = require('sequelize/lib/data-types');
 
-module.exports = function(sequelize){
-    const Productos = sequelize.define('productos',
-    {
-        id:{
-            type : DataTypes.BIGINT,
+module.exports = function (sequelize) {
+    const Productos = sequelize.define('productos', {
+        id: {
+            type: DataTypes.BIGINT,
             primaryKey: true,
             unique: true,
             allowNull: false,
-            onUpdate: 'CASCADE'         
+            onUpdate: 'CASCADE'
         },
         nombre: {
             type: DataTypes.STRING,
             allowNull: false,
             onUpdate: 'CASCADE'
         },
-        descripcion:{
+        descripcion: {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'Ninguna',
             onUpdate: 'CASCADE'
         },
-        precio_unitario:{
+        precio_unitario: {
             type: DataTypes.FLOAT,
             allowNull: false,
             defaultValue: 0.0,
@@ -32,24 +31,20 @@ module.exports = function(sequelize){
             allowNull: false,
             defaultValue: 0
         },
-        activo: {
-            type:  DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: true 
-        },
         created_at: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false
-          },
-          updated_at: {
+        },
+        updated_at: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false
-          }
+        }
 
-    },{
-        timestamps: false
+    }, {
+        updatedAt: 'updated_at',
+        createdAt: 'created_at'
     });
     return Productos;
 }
