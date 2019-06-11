@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const conexionDB = new Sequelize('UCuencaDental', 'admin', '123456789', {
+const conexionDB = new Sequelize('pruebas', 'admin', '123456789', {
     host: 'localhost',
     dialect: 'postgres',
     dialectOptions: {
@@ -11,7 +11,7 @@ const conexionDB = new Sequelize('UCuencaDental', 'admin', '123456789', {
 var models = require('../models')(conexionDB)
 
 const connectDB = ()=>{
-    conexionDB.sync().then(() => {
+    conexionDB.sync({froce: true}).then(() => {
         console.log('Tablas Creadas exitosamente!')
     },
     (err) => 
