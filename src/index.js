@@ -1,4 +1,4 @@
-const port = 3030;
+const port = 3000;
 const server=require('./app').startServer;
 const conexionBD = require('./db').connectDB;
 const conexion = require('./db').conexionDB
@@ -114,9 +114,6 @@ app.get('/equipo/all', (req, res) => { // Para poder obtener todos los inventari
   }
 
 });
-
-
-
 
 
 app.get("/", (req, res) => {
